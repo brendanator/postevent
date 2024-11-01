@@ -15,6 +15,12 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
     testImplementation 'io.zonky.test:embedded-postgres:2.0.6'
     testImplementation 'org.postgresql:postgresql:42.7.2'
+    
+    implementation 'io.debezium:debezium-embedded:2.5.1.Final'
+    implementation 'io.debezium:debezium-connector-postgres:2.5.1.Final'
+    
+    implementation 'io.debezium:debezium-embedded:2.5.1.Final'
+    implementation 'io.debezium:debezium-connector-postgres:2.5.1.Final'
 }
 
 testlogger {
