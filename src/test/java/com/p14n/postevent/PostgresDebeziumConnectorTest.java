@@ -1,6 +1,8 @@
 package com.p14n.postevent;
 
 import io.debezium.engine.ChangeEvent;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PostgresDebeziumConnectorTest {
     private PostgresDebeziumConnector engine;
     private Properties properties;
+    private ExecutorService executorService;
 
     @BeforeEach
     void setUp() {
@@ -23,7 +26,8 @@ class PostgresDebeziumConnectorTest {
         properties.setProperty("offset.storage.file.filename", "/tmp/offsets.dat");
         properties.setProperty("offset.flush.interval.ms", "1000");
         
-        engine = new PostgresDebeziumConnector(properties);
+        executorService = Executors.newSingleThreadExecutor();
+        engine = new PostgresDebeziumConnector(properties, executorService);
     }
 
     @AfterEach
@@ -31,6 +35,7 @@ class PostgresDebeziumConnectorTest {
         if (engine != null) {
             engine.close();
         }
+        executorService.shutdown();
     }
 
     @Test

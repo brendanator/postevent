@@ -6,15 +6,18 @@ import io.debezium.engine.format.Json;
 
 import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 
 public class PostgresDebeziumConnector {
     private final Properties properties;
+    private final ExecutorService executorService;
     private Consumer<ChangeEvent<String, String>> changeEventConsumer;
     private DebeziumEngine<ChangeEvent<String, String>> engine;
 
-    public PostgresDebeziumConnector(Properties properties) {
+    public PostgresDebeziumConnector(Properties properties, ExecutorService executorService) {
         this.properties = properties;
+        this.executorService = executorService;
     }
 
     public void setChangeEventConsumer(Consumer<ChangeEvent<String, String>> consumer) {
@@ -31,15 +34,7 @@ public class PostgresDebeziumConnector {
                 .notifying(changeEventConsumer)
                 .build();
 
-        var thread = new Thread(() -> {
-            try {
-                engine.run();
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to start Debezium engine", e);
-            }
-        });
-        thread.setName("debezium-engine");
-        thread.start();
+        executorService.submit(engine);
     }
 
     public void close() {
