@@ -13,10 +13,15 @@ repositories {
 dependencies {
     implementation 'io.debezium:debezium-embedded:2.5.1.Final'
     implementation 'io.debezium:debezium-connector-postgres:2.5.1.Final'
+    implementation 'org.postgresql:postgresql:42.7.2'
+    
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    testImplementation 'org.testcontainers:junit-jupiter:1.18.3'
+    testImplementation 'org.testcontainers:postgresql:1.18.3'
     testImplementation 'io.zonky.test:embedded-postgres:2.0.6'
-    testImplementation 'org.postgresql:postgresql:42.7.2'
+    
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
 }
 
 testlogger {
