@@ -28,7 +28,6 @@ class DefaultMessageBrokerTest {
                 broker = null;
             }
         }
-        Thread.sleep(100); // Allow any background tasks to complete
     }
     
     @BeforeEach
